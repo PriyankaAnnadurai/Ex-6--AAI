@@ -20,51 +20,42 @@ Step 5:Iterate through each word in the tokenized text.<br>
 <H3>Program:</H3>
 
 ```python
+!pip install nltk
 import nltk
+#import wordnet
+nltk.download( 'punkt' )
+nltk.download('wordnet')
+from nltk.tokenize import word_tokenize
+nltk.download( 'averaged_perceptron_tagger' )
+sentence=input()
+# Tokenize the sentence into words
+words = word_tokenize(sentence)
+# Identify the parts of speech for each word
+pos_tags= nltk.pos_tag(words)
+# Print the parts of speech
+for word, tag in pos_tags:
+	print(word, tag)
 from nltk.corpus import wordnet
 
-nltk.download('punkt')
-nltk.download('averaged_perceptron_tagger')
-nltk.download('wordnet')
+# Identify synonyms and antonyms for each word
+synonyms =[]
+antonyms =[]
+for word in words:
+	for syn in wordnet.synsets(word) :
+		for lemma in syn.lemmas():
+			synonyms . append (lemma . name( ) )
+			if lemma . antonyms():
+				antonyms . append ( lemma. antonyms ( ) [0] . name ( ) )
+# Print the synonyms and antonyms
+print ( "Synonyms : " ,set (synonyms) )
+print ( "Antonyms : " ,set(antonyms) )
 
-def get_synonyms(word):
-    synonyms = set()
-    for syn in wordnet.synsets(word):
-        for lemma in syn.lemmas():
-            synonyms.add(lemma.name())
-    return synonyms
-
-def process_text_file(file_path):
-    with open(file_path, 'r') as file:
-        text = file.read()
-    return text  # Return the processed text
-
-text = process_text_file('sample.txt')
-
-# Tokenize the text into sentences
-sentences = nltk.sent_tokenize(text)
-
-for sentence in sentences:
-    # Tokenize each sentence into words
-    words = nltk.word_tokenize(sentence)
-
-    # Perform part-of-speech tagging
-    pos_tags = nltk.pos_tag(words)
-
-    # Extract verbs
-    verbs = [word for word, pos in pos_tags if pos.startswith('V')]
-
-    # Get synonyms for each verb
-    for verb in verbs:
-        synonyms = get_synonyms(verb)
-        print(f"Verb: {verb}")
-        print(f"Synonyms: {', '.join(synonyms)}\n")
 
 ```
 
 <H3>Output</H3>
 
-![image](https://github.com/shalinikannan23/Ex-6--AAI/assets/118656529/68d19ae1-71ca-400d-8ceb-6cf1f26bad94)
+![image](https://github.com/PriyankaAnnadurai/Ex-6--AAI/assets/118351569/6ef637c6-3e3c-46d5-9a43-c860cea21221)
 
 
 <H3>Result:</H3>
